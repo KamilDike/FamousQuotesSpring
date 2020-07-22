@@ -16,8 +16,6 @@ public class QuotationService {
     private QuotationRepository quotationRepository;
 
     public List<Quotation> getQuotes() {
-        System.out.println("geting quotes");
-        System.out.println(quotationRepository.findAll().toString());
         return quotationRepository.findAll();
     }
 

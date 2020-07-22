@@ -11,7 +11,7 @@ public class ApplicationUserService implements UserDetailsService {
 
     private final ApplicationUserDao applicationUserDao;
 
-    public ApplicationUserService(@Qualifier("fake") ApplicationUserDao applicationUserDao) {
+    public ApplicationUserService(@Qualifier("quotesV1") ApplicationUserDao applicationUserDao) {
         this.applicationUserDao = applicationUserDao;
     }
 
