@@ -58,8 +58,15 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api").hasAuthority(QUOTATION_WRITE.getPermission())
                 .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(QUOTATION_DELETE.getPermission())
                 .antMatchers(HttpMethod.PUT, "/api/**").hasRole(ADMIN.name())
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**")
+                .permitAll()
+//                .anyRequest()
+//                .authenticated()
                 .and()
                 .httpBasic();
     }

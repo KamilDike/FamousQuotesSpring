@@ -6,3 +6,4 @@
 - [x] Exceptions
 - [x] Remote hosting application
 - [x] Remote hosting database
+- [x] API Swagger Documentation
