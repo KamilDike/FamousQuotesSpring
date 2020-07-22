@@ -1,38 +1,39 @@
 package com.example.Security.service;
 
+import com.example.Security.exception.ResourceNotFoundException;
 import com.example.Security.model.Quotation;
+import com.example.Security.repository.QuotationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class QuotationService {
-    List<Quotation> quotes;
 
-    public QuotationService() {
-        this.quotes = new ArrayList<>();
-        Quotation q1 = new Quotation("Nelson Mandela",
-                "The greatest glory in living lies not in never falling, but in rising every time we fall.");
-        Quotation q2 = new Quotation("Walt Disney",
-                "The way to get started is to quit talking and begin doing.");
-        Quotation q3 = new Quotation("Steve Jobs",
-                "Your time is limited, so don't waste it living someone else's life. " +
-                        "Don't be trapped by dogma – which is living with the results of other people's thinking.");
-        Quotation q4 = new Quotation("John Lennon",
-                "Life is what happens when you're busy making other plans.");
-        this.quotes.addAll(List.of(q1, q2, q3, q4));
-    }
+    @Autowired
+    private QuotationRepository quotationRepository;
 
     public List<Quotation> getQuotes() {
-        return quotes;
+        System.out.println("geting quotes");
+        System.out.println(quotationRepository.findAll().toString());
+        return quotationRepository.findAll();
     }
 
-    public Boolean add(Quotation quotation) {
-        return quotes.add(quotation);
+    public ResponseEntity<Quotation> getQuote(Long id) throws ResourceNotFoundException {
+        Quotation quotation = quotationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Quotation not found for this id: " + id));
+        return ResponseEntity.ok().body(quotation);
     }
 
-    public void remove(int id) {
-        quotes.remove(id);
+    public void add(Quotation quotation) {
+        quotationRepository.save(quotation);
+    }
+
+    public void remove(Long id) throws ResourceNotFoundException {
+        Quotation quotation = quotationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Quotation not found for this id: " + id));
+        quotationRepository.delete(quotation);
     }
 }
